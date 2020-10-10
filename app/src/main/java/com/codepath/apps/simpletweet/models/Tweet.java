@@ -1,7 +1,5 @@
 package com.codepath.apps.simpletweet.models;
 
-import com.codepath.apps.simpletweet.TimeFormatter;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,10 +27,6 @@ public class Tweet {
             tweets.add(fromJson(jsonArray.getJSONObject(i)));
         }
         return tweets;
-    }
-
-    public String getFormattedTimestamp() {
-        return TimeFormatter.getTimeDifference(createdAt);
     }
 
 }
