@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.codepath.apps.simpletweet.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -26,12 +27,28 @@ public class TimelineActivity extends AppCompatActivity {
     TweetsAdapter mTweetsAdapter;
     private TwitterClient mClient;
 
+    SwipeRefreshLayout mSwipecontainer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
 
         mClient = TwitterApp.getRestClient(this);
+
+        mSwipecontainer = findViewById(R.id.swipeContainer);
+        // Configure the refreshing colors
+        mSwipecontainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        mSwipecontainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.i(TAG, "onRefresh: ");
+                populateHomeTimeline();
+            }
+        });
 
         // Find the RecyclerView
         mRvTweets = findViewById(R.id.rvTweets);
@@ -51,8 +68,9 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.i(TAG, "onSuccess: " + json.toString());
                 JSONArray jsonArray = json.jsonArray;
                 try {
-                    mTweets.addAll(Tweet.fromJsonArray(jsonArray));
-                    mTweetsAdapter.notifyDataSetChanged();
+                    mTweetsAdapter.clear();
+                    mTweetsAdapter.addAll(Tweet.fromJsonArray(jsonArray));
+                    mSwipecontainer.setRefreshing(false);
                 } catch (JSONException e) {
                     Log.e(TAG, "onSuccess: ", e);
                     e.printStackTrace();
@@ -62,6 +80,7 @@ public class TimelineActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                 Log.i(TAG, "onFailure: ", throwable);
+                mSwipecontainer.setRefreshing(false);
             }
         });
     }
