@@ -1,6 +1,7 @@
 package com.codepath.apps.simpletweet;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.simpletweet.models.Tweet;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -63,6 +66,7 @@ class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
     // Define a ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        View container;
         ImageView ivProfileImage;
         TextView tvBody;
         TextView tvScreenName;
@@ -70,17 +74,26 @@ class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            container = itemView.findViewById(R.id.container);
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
             tvBody = itemView.findViewById(R.id.tvBody);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             tvTimestamp = itemView.findViewById(R.id.tvTimestamp);
         }
 
-        public void bind(Tweet tweet) {
+        public void bind(final Tweet tweet) {
             tvBody.setText(tweet.body);
             tvScreenName.setText(tweet.user.screenName);
             tvTimestamp.setText(tweet.getFormattedTimestamp());
             Glide.with(mContext).load(tweet.user.profileImageUrl).into(ivProfileImage);
+            container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, TweetDetailActivity.class);
+                    intent.putExtra("tweet", Parcels.wrap(tweet));
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 }
