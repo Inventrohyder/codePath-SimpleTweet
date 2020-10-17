@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="8dp"
-    android:paddingBottom="8dp">
+    android:paddingBottom="16dp">
 
     <ImageView
         android:id="@+id/ivProfileImage"
@@ -13,9 +13,8 @@
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_margin="5dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:contentDescription="@string/dp_description"
         android:transitionName="profile_image"
         tools:srcCompat="@tools:sample/avatars" />
@@ -24,7 +23,9 @@
         android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:layout_toEndOf="@+id/ivProfileImage"
         android:textColor="@android:color/black"
         android:textStyle="bold"
@@ -35,7 +36,8 @@
         android:id="@+id/tvScreenName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="8dp"
         android:layout_toEndOf="@+id/tvName"
         android:transitionName="screen_name"
         tools:text="rpandey1234" />
@@ -45,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvScreenName"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="2dp"
         android:layout_toEndOf="@+id/ivProfileImage"
         android:autoLink="all"
@@ -59,7 +61,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="5dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:transitionName="timestamp"
         tools:text="23 m" />
 </RelativeLayout>
