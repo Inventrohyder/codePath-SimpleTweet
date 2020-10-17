@@ -24,7 +24,7 @@ import okhttp3.Headers;
 
 public class ComposeActivity extends AppCompatActivity {
 
-    private static final int MAX_TWEET_LENGTH = 28;
+    private static final int MAX_TWEET_LENGTH = 280;
     private final String TAG = getClass().getSimpleName();
     TextInputLayout mTiCompose;
     Button mBtnTweet;
