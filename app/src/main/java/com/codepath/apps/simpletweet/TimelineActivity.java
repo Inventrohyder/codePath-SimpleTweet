@@ -1,10 +1,10 @@
 package com.codepath.apps.simpletweet;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -139,8 +139,9 @@ public class TimelineActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.compose) {
             // Compose icon has been selected
-            Toast.makeText(this, "Compose!", Toast.LENGTH_SHORT).show();
             // Navigate to compose activity
+            Intent intent = new Intent(this, ComposeActivity.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
