@@ -2,27 +2,31 @@ package com.codepath.apps.simpletweet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.codepath.apps.simpletweet.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
 import org.parceler.Parcels;
+
+import java.util.Objects;
 
 import okhttp3.Headers;
 
 public class ComposeActivity extends AppCompatActivity {
 
-    private static final int MAX_TWEET_LENGTH = 140;
+    private static final int MAX_TWEET_LENGTH = 28;
     private final String TAG = getClass().getSimpleName();
-    EditText mEtCompose;
+    TextInputLayout mTiCompose;
     Button mBtnTweet;
     private TwitterClient mClient;
 
@@ -33,14 +37,42 @@ public class ComposeActivity extends AppCompatActivity {
 
         mClient = TwitterApp.getRestClient(this);
 
-        mEtCompose = findViewById(R.id.etCompose);
+        mTiCompose = findViewById(R.id.tiCompose);
         mBtnTweet = findViewById(R.id.btnTweet);
+
+        mTiCompose.setHelperText(getString(R.string.tweet_char_len, 0, MAX_TWEET_LENGTH));
+
+        Objects.requireNonNull(mTiCompose.getEditText()).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() > MAX_TWEET_LENGTH) {
+                    // ERROR
+                    mTiCompose.setError(getString(R.string.tweet_char_len, editable.length(), MAX_TWEET_LENGTH));
+                    mBtnTweet.setEnabled(false);
+                } else {
+                    // OKAY
+                    mTiCompose.setHelperText(getString(R.string.tweet_char_len, editable.length(), MAX_TWEET_LENGTH));
+                    mBtnTweet.setEnabled(true);
+                }
+            }
+        });
+
 
         // Set click listener on button
         mBtnTweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String tweetContent = mEtCompose.getText().toString();
+                String tweetContent = mTiCompose.getEditText().getText().toString();
                 if (tweetContent.isEmpty()) {
                     Toast.makeText(ComposeActivity.this, "Sorry, your tweet cannot be empty", Toast.LENGTH_LONG).show();
                     return;

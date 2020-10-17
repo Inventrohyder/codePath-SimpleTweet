@@ -8,5 +8,6 @@
     <string name="dp_description">Twitter user profile image</string>
     <string name="compose_hint">What\'s happening?</string>
     <string name="tweet">Tweet</string>
+    <string name="tweet_char_len">%d/%d</string>
 
 </resources>

@@ -9,22 +9,30 @@
         android:id="@+id/btnTweet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etCompose"
+        android:layout_below="@+id/tiCompose"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         android:text="@string/tweet" />
 
-    <EditText
-        android:id="@+id/etCompose"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tiCompose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="@string/compose_hint"
-        android:importantForAutofill="no"
-        android:inputType="textMultiLine"
-        android:minLines="5" />
+        android:layout_marginEnd="5dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etCompose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="@string/compose_hint"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine"
+            android:minLines="5" />
+    </com.google.android.material.textfield.TextInputLayout>
 </RelativeLayout>
