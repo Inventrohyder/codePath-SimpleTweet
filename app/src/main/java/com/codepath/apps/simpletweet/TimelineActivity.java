@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -60,6 +61,8 @@ public class TimelineActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRvTweets.setLayoutManager(layoutManager);
         mRvTweets.setAdapter(mTweetsAdapter);
+
+        mRvTweets.addItemDecoration(new DividerItemDecoration(mRvTweets.getContext(), layoutManager.getOrientation()));
 
         mScrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override

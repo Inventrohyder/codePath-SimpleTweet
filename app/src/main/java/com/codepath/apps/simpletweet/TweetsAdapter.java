@@ -1,5 +1,6 @@
 package com.codepath.apps.simpletweet;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -9,9 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.codepath.apps.simpletweet.models.Tweet;
 
 import org.parceler.Parcels;
@@ -71,6 +75,7 @@ class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
         TextView tvBody;
         TextView tvScreenName;
         TextView tvTimestamp;
+        TextView tvName;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -79,21 +84,37 @@ class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
             tvBody = itemView.findViewById(R.id.tvBody);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             tvTimestamp = itemView.findViewById(R.id.tvTimestamp);
+            tvName = itemView.findViewById(R.id.tvName);
         }
 
         public void bind(final Tweet tweet) {
             tvBody.setText(tweet.body);
-            tvScreenName.setText(tweet.user.screenName);
+            tvScreenName.setText(mContext.getString(R.string.user_name, tweet.user.screenName));
+            tvName.setText(tweet.user.name);
             tvTimestamp.setText(tweet.getFormattedTimestamp());
-            Glide.with(mContext).load(tweet.user.profileImageUrl).into(ivProfileImage);
-            container.setOnClickListener(new View.OnClickListener() {
+            Glide.with(mContext)
+                    .load(tweet.user.profileImageUrl)
+                    .transform(new RoundedCorners(25))
+                    .into(ivProfileImage);
+            View.OnClickListener detailClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, TweetDetailActivity.class);
                     intent.putExtra("tweet", Parcels.wrap(tweet));
-                    mContext.startActivity(intent);
+
+                    Pair<View, String> p1 = Pair.create((View) ivProfileImage, ivProfileImage.getTransitionName());
+                    Pair<View, String> p2 = Pair.create((View) tvName, tvName.getTransitionName());
+                    Pair<View, String> p3 = Pair.create((View) tvScreenName, tvScreenName.getTransitionName());
+                    Pair<View, String> p4 = Pair.create((View) tvTimestamp, tvTimestamp.getTransitionName());
+                    Pair<View, String> p5 = Pair.create((View) tvBody, tvBody.getTransitionName());
+
+                    //noinspection unchecked
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, p1, p2, p3, p4, p5);
+                    mContext.startActivity(intent, options.toBundle());
                 }
-            });
+            };
+            container.setOnClickListener(detailClickListener);
+            tvBody.setOnClickListener(detailClickListener);
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.codepath.apps.simpletweet;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,5 +44,15 @@ public class TweetDetailActivity extends AppCompatActivity {
                 .load(tweet.user.profileImageUrl)
                 .transform(new RoundedCorners(25))
                 .into(mIvProfileImage);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Respond to the action bar's Up/Home button
+        if (item.getItemId() == android.R.id.home) {
+            supportFinishAfterTransition();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
