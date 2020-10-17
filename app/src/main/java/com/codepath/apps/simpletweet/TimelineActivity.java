@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,13 +18,17 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.Headers;
 
 public class TimelineActivity extends AppCompatActivity {
+
+    private final int REQUEST_CODE = 20;
 
     private final String TAG = getClass().getSimpleName();
     RecyclerView mRvTweets;
@@ -141,9 +146,24 @@ public class TimelineActivity extends AppCompatActivity {
             // Compose icon has been selected
             // Navigate to compose activity
             Intent intent = new Intent(this, ComposeActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_CODE);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            // Get data from the intent (tweet)
+            Tweet tweet = Parcels.unwrap(Objects.requireNonNull(data).getParcelableExtra("tweet"));
+            // Update the RV with the tweet
+            // Modify data source of the tweets
+            mTweets.add(0, tweet);
+            // Update the adapter
+            mTweetsAdapter.notifyItemInserted(0);
+            mRvTweets.smoothScrollToPosition(0);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
