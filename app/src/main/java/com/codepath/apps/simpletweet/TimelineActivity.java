@@ -27,7 +27,8 @@ public class TimelineActivity extends AppCompatActivity {
     TweetsAdapter mTweetsAdapter;
     private TwitterClient mClient;
 
-    SwipeRefreshLayout mSwipecontainer;
+    SwipeRefreshLayout mSwipeContainer;
+    EndlessRecyclerViewScrollListener mScrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +37,13 @@ public class TimelineActivity extends AppCompatActivity {
 
         mClient = TwitterApp.getRestClient(this);
 
-        mSwipecontainer = findViewById(R.id.swipeContainer);
+        mSwipeContainer = findViewById(R.id.swipeContainer);
         // Configure the refreshing colors
-        mSwipecontainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+        mSwipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        mSwipecontainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 Log.i(TAG, "onRefresh: ");
@@ -56,9 +57,47 @@ public class TimelineActivity extends AppCompatActivity {
         mTweets = new ArrayList<>();
         mTweetsAdapter = new TweetsAdapter(this, mTweets);
         // Recycler View setup: layout manager and the adapter
-        mRvTweets.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mRvTweets.setLayoutManager(layoutManager);
         mRvTweets.setAdapter(mTweetsAdapter);
+
+        mScrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Log.i(TAG, "onLoadMore: " + page);
+                loadMoreData();
+            }
+        };
+        // Add scroll listener to RecyclerView
+        mRvTweets.addOnScrollListener(mScrollListener);
         populateHomeTimeline();
+    }
+
+    private void loadMoreData() {
+        // 1. Send an API request to retrieve appropriate paginated data
+        mClient.getNextPageOfTweets(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.i(TAG, "onSuccess: for loadMoreData" + json.toString());
+                // 2. Deserialize and construct new model objects from the API response
+                JSONArray jsonArray = json.jsonArray;
+                try {
+                    List<Tweet> tweets = Tweet.fromJsonArray(jsonArray);
+                    // 3. Append the new data objects to the existing set of items inside the array of items
+                    // 4. Notify the adapter of the new items made with `notifyItemRangeInserted()`
+                    mTweetsAdapter.addAll(tweets);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.e(TAG, "onFailure: for loadMoreData", throwable);
+            }
+        }, mTweets.get(mTweets.size() - 1).id);
+
+
     }
 
     private void populateHomeTimeline() {
@@ -70,7 +109,7 @@ public class TimelineActivity extends AppCompatActivity {
                 try {
                     mTweetsAdapter.clear();
                     mTweetsAdapter.addAll(Tweet.fromJsonArray(jsonArray));
-                    mSwipecontainer.setRefreshing(false);
+                    mSwipeContainer.setRefreshing(false);
                 } catch (JSONException e) {
                     Log.e(TAG, "onSuccess: ", e);
                     e.printStackTrace();
@@ -79,8 +118,8 @@ public class TimelineActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.i(TAG, "onFailure: ", throwable);
-                mSwipecontainer.setRefreshing(false);
+                Log.e(TAG, "onFailure: ", throwable);
+                mSwipeContainer.setRefreshing(false);
             }
         });
     }
