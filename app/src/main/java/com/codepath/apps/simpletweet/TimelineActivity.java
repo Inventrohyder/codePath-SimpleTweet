@@ -2,7 +2,6 @@ package com.codepath.apps.simpletweet;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -43,9 +42,6 @@ public class TimelineActivity extends AppCompatActivity {
     SwipeRefreshLayout mSwipeContainer;
     EndlessRecyclerViewScrollListener mScrollListener;
     private TwitterClient mClient;
-
-    SwipeRefreshLayout mSwipeContainer;
-    EndlessRecyclerViewScrollListener mScrollListener;
     private TweetDao mTweetDao;
 
     @Override
