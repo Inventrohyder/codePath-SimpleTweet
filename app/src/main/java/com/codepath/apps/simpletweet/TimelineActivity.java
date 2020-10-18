@@ -26,10 +26,9 @@ public class TimelineActivity extends AppCompatActivity {
     RecyclerView mRvTweets;
     List<Tweet> mTweets;
     TweetsAdapter mTweetsAdapter;
-    private TwitterClient mClient;
-
     SwipeRefreshLayout mSwipeContainer;
     EndlessRecyclerViewScrollListener mScrollListener;
+    private TwitterClient mClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

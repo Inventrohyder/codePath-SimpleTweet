@@ -2,9 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".TweetDetailActivity">
+    android:layout_height="wrap_content"
+    android:paddingTop="8dp"
+    android:paddingBottom="16dp">
 
     <ImageView
         android:id="@+id/ivProfileImage"
@@ -12,12 +14,29 @@
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_margin="5dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:contentDescription="@string/dp_description"
         android:transitionName="profile_image"
-        app:layout_constraintStart_toStartOf="@+id/tvBody"
-        app:layout_constraintTop_toTopOf="@+id/tvName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/playIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/videoMedia"
+        android:layout_alignEnd="@+id/videoMedia"
+        android:contentDescription="@string/play_button"
+        android:elevation="5dp"
+        app:layout_constraintBottom_toBottomOf="@id/videoMedia"
+        app:layout_constraintEnd_toEndOf="@+id/videoMedia"
+        app:layout_constraintStart_toStartOf="@+id/videoMedia"
+        app:layout_constraintTop_toTopOf="@+id/videoMedia"
+        app:srcCompat="@drawable/ic_play_circle"
+        app:tint="@android:color/white" />
+
 
     <ImageView
         android:id="@+id/ivEmbeddedImage"
@@ -34,97 +53,80 @@
         android:minHeight="100dp"
         android:scaleType="fitCenter"
         android:transitionName="media"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@+id/tvBody"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tvTimestamp"
         app:layout_constraintStart_toStartOf="@+id/tvBody"
         app:layout_constraintTop_toBottomOf="@+id/tvBody"
-        tools:srcCompat="@tools:sample/backgrounds/scenic"
-        tools:visibility="visible" />
-
-    <ImageView
-        android:id="@+id/playIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/videoMedia"
-        android:layout_alignEnd="@+id/videoMedia"
-        android:contentDescription="@string/play_button"
-        android:elevation="5dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/videoMedia"
-        app:layout_constraintEnd_toEndOf="@+id/videoMedia"
-        app:layout_constraintStart_toStartOf="@+id/videoMedia"
-        app:layout_constraintTop_toTopOf="@+id/videoMedia"
-        app:srcCompat="@drawable/ic_play_circle"
-        app:tint="@android:color/white"
-        tools:visibility="visible" />
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/videoMedia"
         app:layout_constraintEnd_toEndOf="@+id/videoMedia"
         app:layout_constraintStart_toStartOf="@+id/videoMedia"
-        app:layout_constraintTop_toTopOf="@+id/videoMedia"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toTopOf="@+id/videoMedia" />
 
     <TextView
         android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ivProfileImage"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/ivProfileImage"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@android:color/black"
         android:textStyle="bold"
         android:transitionName="name"
         app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:layout_constraintTop_toTopOf="@+id/ivProfileImage"
         tools:text="Rahul Singh" />
 
     <TextView
         android:id="@+id/tvScreenName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_toEndOf="@+id/ivProfileImage"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:layout_alignTop="@+id/ivProfileImage"
+        android:layout_alignBottom="@+id/tvName"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="2dp"
+        android:layout_toStartOf="@+id/tvTimestamp"
+        android:layout_toEndOf="@+id/tvName"
         android:transitionName="screen_name"
-        app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
-        app:layout_constraintTop_toBottomOf="@+id/tvName"
+        app:layout_constraintStart_toEndOf="@+id/tvName"
+        app:layout_constraintTop_toTopOf="@+id/ivProfileImage"
         tools:text="rpandey1234" />
 
     <TextView
         android:id="@+id/tvBody"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvScreenName"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp"
-        android:layout_toEndOf="@+id/ivProfileImage"
+        android:layout_below="@+id/tvName"
+        android:layout_alignStart="@+id/tvName"
+        android:layout_marginTop="8dp"
         android:autoLink="all"
         android:linksClickable="true"
         android:textColor="@android:color/black"
         android:transitionName="body"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivProfileImage"
+        app:layout_constraintStart_toStartOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvName"
         tools:text="This is my tweet!!!" />
 
     <TextView
-        android:id="@+id/tvCreatedAt"
+        android:id="@+id/tvTimestamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:layout_alignTop="@+id/ivProfileImage"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
         android:transitionName="timestamp"
-        app:layout_constraintStart_toStartOf="@+id/tvBody"
-        app:layout_constraintTop_toBottomOf="@+id/ivEmbeddedImage"
-        tools:text="Oct 7, 2015 7:05 AM" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivProfileImage"
+        tools:text="23 m" />
 
     <VideoView
         android:id="@+id/videoMedia"
@@ -136,12 +138,10 @@
         android:maxHeight="250dp"
         android:minHeight="100dp"
         android:transitionName="media"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/ivEmbeddedImage"
         app:layout_constraintEnd_toEndOf="@+id/ivEmbeddedImage"
         app:layout_constraintStart_toStartOf="@+id/ivEmbeddedImage"
-        app:layout_constraintTop_toTopOf="@+id/ivEmbeddedImage"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toTopOf="@+id/ivEmbeddedImage" />
 
     <View
         android:id="@+id/overlay_image"
@@ -149,31 +149,9 @@
         android:layout_height="0dp"
         android:background="#6F000000"
         android:elevation="4dp"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/ivEmbeddedImage"
         app:layout_constraintEnd_toEndOf="@+id/ivEmbeddedImage"
         app:layout_constraintStart_toStartOf="@+id/ivEmbeddedImage"
-        app:layout_constraintTop_toTopOf="@+id/ivEmbeddedImage"
-        tools:visibility="visible" />
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:elevation="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:liftOnScroll="true">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:logo="@drawable/ic_twitter_logo_whiteonimage"
-            app:title="@string/tweet"
-            app:titleTextColor="@android:color/white" />
-    </com.google.android.material.appbar.AppBarLayout>
+        app:layout_constraintTop_toTopOf="@+id/ivEmbeddedImage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

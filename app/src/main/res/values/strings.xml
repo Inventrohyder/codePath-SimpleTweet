@@ -8,5 +8,8 @@
     <string name="dp_description">Twitter user profile image</string>
     <string name="user_name">\@%s</string>
     <string name="tweet">Tweet</string>
+    <string name="embedded_tweet_image">Embedded Tweet Image</string>
+    <string name="video_thumbnail">Video Thumbnail</string>
+    <string name="play_button">Play Button</string>
 
 </resources>
