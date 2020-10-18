@@ -1,5 +1,11 @@
 package com.codepath.apps.simpletweet.models;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import android.util.Log;
 
 import com.codepath.apps.simpletweet.TimeFormatter;
@@ -13,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Parcel
+@Entity(foreignKeys = @ForeignKey(entity = User.class, parentColumns = "id", childColumns = "userId"))
 public class Tweet {
 
     public static final String TAG = "Tweet";
@@ -21,10 +28,23 @@ public class Tweet {
     public static final int MEDIA_TYPE_PHOTO = 0;
     public static final int MEDIA_TYPE_VIDEO = 1;
 
-    public String body;
-    public String createdAt;
-    public User user;
+    @ColumnInfo
+    @PrimaryKey
     public long id;
+
+    @ColumnInfo
+    public String body;
+
+    @ColumnInfo
+    public String createdAt;
+
+    @ColumnInfo
+    public long userId;
+
+    @Ignore
+    public User user;
+
+
     public String mediaUrl;
     public String videoUrl;
     public int mediaType = MEDIA_TYPE_NONE;
@@ -35,10 +55,11 @@ public class Tweet {
 
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
+        tweet.id = jsonObject.getLong("id");
         tweet.body = jsonObject.getString("text");
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
-        tweet.id = jsonObject.getLong("id");
+        tweet.userId = tweet.user.id;
         try {
             JSONObject mediaObject = jsonObject.getJSONObject("extended_entities")
                     .getJSONArray("media")

@@ -11,5 +11,7 @@
     <string name="embedded_tweet_image">Embedded Tweet Image</string>
     <string name="video_thumbnail">Video Thumbnail</string>
     <string name="play_button">Play Button</string>
+    <string name="compose_hint">What\'s happening?</string>
+    <string name="tweet_char_len">%d/%d</string>
 
 </resources>
