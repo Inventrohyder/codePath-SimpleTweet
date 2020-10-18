@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,7 +14,9 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:text="@string/tweet" />
+        android:backgroundTint="@color/twitter_blue"
+        android:text="@string/tweet"
+        android:textColor="@android:color/white" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tiCompose"
@@ -21,13 +24,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp">
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_marginEnd="5dp"
+        app:boxStrokeColor="@color/twitter_blue">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etCompose"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:ems="10"
             android:gravity="start|top"
             android:hint="@string/compose_hint"

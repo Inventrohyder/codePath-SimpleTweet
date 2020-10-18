@@ -13,5 +13,6 @@
     <string name="play_button">Play Button</string>
     <string name="compose_hint">What\'s happening?</string>
     <string name="tweet_char_len">%d/%d</string>
+    <string name="compose">Compose</string>
 
 </resources>
