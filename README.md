@@ -31,7 +31,7 @@ The following **additional** features are implemented:
 
 - [x] Use Material Design TextInputLayout to alter the compose field color when char length is greater than the limit.
 - [x] Continue video playback from the time line to the detail view
-- [ ] Add Shared Transitions from TimeLine to Detail Activities
+- [x] Add Shared Transitions from TimeLine to Detail Activities
 
 ## Video Walk-through
 
